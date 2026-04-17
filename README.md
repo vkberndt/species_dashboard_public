@@ -51,10 +51,10 @@ Game Server (Path of Titans)
 
 ## Step 3 - Set up your database tables
 
-1. Click on your Postgres service → **Query** tab
+1. Click on your Postgres service → **Database** tab
 2. Open `schema.sql` in Notepad or any text editor
-3. Copy the entire contents and paste into the Railway query box
-4. Click **Run Query**. You should see no errors
+3. Copy the entire contents and paste into the Railway query box (Under "Data" and already has the start of a * SELECT..... query)
+4. Press enter to **Run Query**. You should see no errors
 
 ---
 
@@ -62,23 +62,17 @@ Game Server (Path of Titans)
 
 This is the service your game server will send events to.
 
-1. Click **+ Add a Service** → **GitHub Repo** → select `species-webhook`
-2. Click **Deploy** and wait for the green checkmark
+1. Click **+ Add** → **GitHub Repo** → select `species-webhook`
 
 **Connect it to your database:**
 1. Click the webhook service → **Variables** tab
 2. Click **+ Add Variable Reference**
 3. Select your Postgres service → select `DATABASE_URL`
+4. Deploy
 
 **Get your webhook URL:**
-1. Click the webhook service → **Settings** → **Networking** → **Generate Domain**
+1. Click the species-webhook deployment box → **Settings** → **Networking** → **Generate Domain**
 2. Copy the domain — it will look like: `species-webhook-production-xxxx.up.railway.app`
-
-**Verify it's running** by opening this URL in your browser:
-```
-https://YOUR-DOMAIN.up.railway.app/health
-```
-You should see: `"Webhook service is running and ready to receive events."`
 
 ---
 
@@ -134,10 +128,6 @@ If you see the `✔ Saved to database` line, everything is working.
 
 ## Troubleshooting
 
-**Health check URL shows an error**
-- Check the **Logs** tab on the webhook service
-- Make sure `DATABASE_URL` was added as a variable reference in Step 4
-
 **Logs show no events after a player respawns**
 - Double-check the URL in `Game.ini` matches your Railway domain exactly
 - Make sure `bEnabled=true` is set and the game server was restarted
@@ -145,6 +135,9 @@ If you see the `✔ Saved to database` line, everything is working.
 **Dashboard shows "No data yet"**
 - Confirm the webhook is receiving events first (Step 6)
 - Make sure you ran `schema.sql` in Step 3
+
+**Any other errors**
+- The **Logs** tab on each service will show exactly what went wrong
 
 **Any other errors**
 - The **Logs** tab on each service will show exactly what went wrong
